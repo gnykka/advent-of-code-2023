@@ -1,2 +1,4 @@
 # advent-of-code-2023
-Solving AdventOfCode puzzles in Julia.
+https://adventofcode.com/2023
+
+Solving Advent of Code 2023 puzzles in Julia.
