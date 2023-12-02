@@ -1,3 +1,6 @@
+# Puzzle 1, part a: 55447
+# Puzzle 1, part b: 54706
+
 data = readlines("./data/01.txt")
 
 pattern_1 = "\\d"
@@ -32,5 +35,5 @@ end
 result_a = calculate(pattern_1, "")
 result_b = calculate(pattern_1, pattern_2)
 
-println("Part a: $result_a")
-println("Part b: $result_b")
+println("Puzzle 1, part a: $result_a")
+println("Puzzle 1, part b: $result_b")
