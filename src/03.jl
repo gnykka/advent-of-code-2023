@@ -12,8 +12,8 @@ function calculate_sum()
   for (index, str) in enumerate(data)
     number_matches = findall(r"\d+", str)
 
-    prev_str = index > 1 ? data[index - 1] : nothing
-    next_str = index < length(data) ? data[index + 1] : nothing
+    prev_str = index > 1 ? data[index - 1] : repeat(".", length(str))
+    next_str = index < length(data) ? data[index + 1] : repeat(".", length(str))
 
     for match in number_matches
       start_index = first(match)
@@ -24,12 +24,11 @@ function calculate_sum()
 
       valid = not_start_of_string && is_symbol(str[start_index - 1]) ||
               not_end_of_string && is_symbol(str[end_index + 1]) ||
-              prev_str !== nothing && has_symbol(prev_str[match]) ||
-              next_str !== nothing && has_symbol(next_str[match]) ||
-              prev_str !== nothing && not_start_of_string && is_symbol(prev_str[start_index - 1]) ||
-              prev_str !== nothing && not_end_of_string && is_symbol(prev_str[end_index + 1]) ||
-              next_str !== nothing && not_start_of_string && is_symbol(next_str[start_index - 1]) ||
-              next_str !== nothing && not_end_of_string && is_symbol(next_str[end_index + 1])
+              has_symbol(prev_str[match]) || has_symbol(next_str[match]) ||
+              not_start_of_string && is_symbol(prev_str[start_index - 1]) ||
+              not_end_of_string && is_symbol(prev_str[end_index + 1]) ||
+              not_start_of_string && is_symbol(next_str[start_index - 1]) ||
+              not_end_of_string && is_symbol(next_str[end_index + 1])
 
       if valid
         sum += parse(Int, str[match])
@@ -54,8 +53,8 @@ function calculate_ratios()
   for (index, str) in enumerate(data)
     matches = findall(r"\*", str)
 
-    prev_str = index > 1 ? data[index - 1] : nothing
-    next_str = index < length(data) ? data[index + 1] : nothing
+    prev_str = index > 1 ? data[index - 1] : repeat(".", length(str))
+    next_str = index < length(data) ? data[index + 1] : repeat(".", length(str))
 
     for match in matches
       symbol_index = first(match)
@@ -63,12 +62,8 @@ function calculate_ratios()
       neighbours = []
 
       append!(neighbours, get_neighbours(symbol_index, str, index))
-      if prev_str !== nothing
-        append!(neighbours, get_neighbours(symbol_index, prev_str, index - 1))
-      end
-      if next_str !== nothing
-        append!(neighbours, get_neighbours(symbol_index, next_str, index + 1))
-      end
+      append!(neighbours, get_neighbours(symbol_index, prev_str, index - 1))
+      append!(neighbours, get_neighbours(symbol_index, next_str, index + 1))
 
       if length(neighbours) === 2
         sum += parse(Int, neighbours[1]) * parse(Int, neighbours[2])
